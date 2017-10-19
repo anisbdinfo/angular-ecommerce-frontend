@@ -57,6 +57,28 @@ export class DataServiceService {
 
   }
 
+  public checkUserName(userData): boolean {
+    var isFound: boolean = false;
+
+      for ( let user of this.users ) {
+        if (user.username === userData.username) {
+          isFound = true;
+        }
+      }
+    return isFound;
+  }
+
+  public checkEmail(userData): boolean {
+    var isFound: boolean = false;
+
+    for ( let user of this.users ) {
+      if (user.email === userData.email) {
+        isFound = true;
+      }
+    }
+    return isFound;
+  }
+
   checkAuth() {
     if (!this.isLoggedin) {
       this.router.navigateByUrl('/');

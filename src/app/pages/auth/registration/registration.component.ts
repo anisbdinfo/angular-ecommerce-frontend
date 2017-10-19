@@ -15,11 +15,12 @@ export class RegistrationComponent implements OnInit {
 
   constructor(public _dataService: DataServiceService, private fb: FormBuilder) {
     this.rForm = fb.group({
-      'username': [null, Validators.required],
-      'email': [null, Validators.required],
-      'password': [null, Validators.required]
+      'username': [null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(50)])],
+      'email': [null, Validators.required ],
+      'password': [null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(50)])]
     });
   }
+
 
 
   registerUser(data): void {

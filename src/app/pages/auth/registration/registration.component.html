@@ -1,6 +1,3 @@
-<p>
-  registration works!
-</p>
 
 {{_dataService.getUsers() | json}}
 
@@ -9,23 +6,36 @@
 
 <div class="container">
   <h1>Registration Form</h1>
+  {{rForm.status}}
+  {{rForm.value | json}}
   <form [formGroup]="rForm" (ngSubmit)="registerUser(rForm.value)" >
     <div class="form-group">
+
+
       <label for="username">User Name</label>
       <input type="text" class="form-control" id="username" formControlName="username" required>
+      <div class="alert-danger" *ngIf="!rForm.controls['username'].valid && rForm.controls['username'].value">username is minimum 3 characters required</div>
+      <div class="alert-danger" *ngIf="_dataService.checkUserName(rForm.value)">Username Already Exist</div>
+
     </div>
 
     <div class="form-group">
+
       <label for="email">Email</label>
-      <input type="email" class="form-control" id="email" formControlName="email">
+      <input type="email" class="form-control" id="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  formControlName="email">
+      <span class="alert-danger" *ngIf="!rForm.controls['email'].valid && rForm.controls['email'].value">email is not valid eg. user@example.com</span>
+      <div class="alert-danger" *ngIf="_dataService.checkEmail(rForm.value)">Email Already Exist</div>
     </div>
 
     <div class="form-group">
+
       <label for="password">Password</label>
       <input type="password" class="form-control" id="password" formControlName="password">
+      <span class="alert-danger" *ngIf="!rForm.controls['password'].valid && rForm.controls['password'].value">password minimum length 6 characters</span>
+
     </div>
 
-    <button type="submit" class="btn btn-success">Register</button>
+    <button type="submit" [disabled]="!rForm.valid" class="btn btn-success">Register</button>
 
   </form>
 </div>
